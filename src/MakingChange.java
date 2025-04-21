@@ -20,9 +20,10 @@ public class MakingChange {
         //Display the frame
         frame.setVisible(true);
 
-
-
+        // Purse count
+        Purse purse = new Purse();
+        PurseDisplay display = new PurseCount(purse);
+        System.out.println(display.display());
 
     }
-
 }

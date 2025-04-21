@@ -1,26 +1,28 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Register {
     private final List<Denomination> denominations = Denomination.PREDEFINED_DENOMINATIONS;
 
-    public Purse.purse makeChange(double amt){
-        Purse.purse purse = new Purse.purse();
+    public Purse makeChange(double amt) {
+        Purse purse = new Purse();
 
         if (amt <= 0) {
             return purse;
         }
 
 
-        for(Denomination d : denominations){
+        for (Denomination d : denominations) {
             int num = (int) (amt / d.amt());
 
-            if(num>0){
+            if (num > 0) {
                 purse.add(d, num);
                 amt -= num * d.amt();
             }
 
         }
+
         return purse;
     }
 
@@ -30,10 +32,12 @@ public class Register {
 
         System.out.println("Enter amount: ");
         double amt = scanner.nextDouble();
-        Purse.purse purse = register.makeChange(amt);
+        Purse purse = register.makeChange(amt);
         System.out.println(purse);
         scanner.close();
 
 
     }
+
+
 }

@@ -9,9 +9,17 @@ public class RegisterPanel extends JPanel {
     private final JPanel registerPanel = new JPanel();
     private final JTextField input = new JTextField(10);
     private final PursePanel changePanel = new PursePanel();
+    private final JTextArea outputArea = new JTextArea(10, 30); // new
+    private final HistoryPanel historyPanel = new HistoryPanel();
+
 
     public RegisterPanel() {
         this.setBackground(Color.BLUE);
+
+        outputArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(outputArea);
+        this.add(scrollPane);
+
 
         // Set size of panel
         this.setPreferredSize(new Dimension(50, 50));
@@ -34,6 +42,15 @@ public class RegisterPanel extends JPanel {
 
         // Add ActionListener
         input.addActionListener(new InputListener());
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.add(inputPanel);
+        bottomPanel.add(historyPanel);
+
+        this.add(changePanel); // already in
+        this.add(bottomPanel);
+
     }
 
 
@@ -45,13 +62,13 @@ public class RegisterPanel extends JPanel {
                 double amount = Double.parseDouble(input.getText());
 
                 // Get the purse with the change
-                Purse.purse purse = register.makeChange(amount);
+                Purse purse = register.makeChange(amount);
 
                 // Clear previous images
                 changePanel.removeAll();
 
                 // Display Images
-                purse.cash.forEach((denom, count) -> {
+                purse.getCash().forEach((denom, count) -> {
                     for (int i = 0; i < count; i++) {
 
                         // Rescale Images
@@ -65,6 +82,14 @@ public class RegisterPanel extends JPanel {
                         coinLabel.setVerticalTextPosition(JLabel.BOTTOM);
                         changePanel.add(coinLabel);
                     }
+
+                    PurseDisplay display = new PurseCount(purse);
+                    outputArea.setText(display.display()); // Add coin counts
+
+                    String logEntry = "Change for $" + amount + ":\n" + display.display();
+                    historyPanel.appendEntry(logEntry);   // Add history for each transaction
+
+
                 });
 
                 // Refresh Panel

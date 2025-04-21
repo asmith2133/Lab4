@@ -4,9 +4,9 @@ import java.util.Map;
 
 public class PursePanel extends JPanel {
 
-    private Purse.purse purse = new Purse.purse();
+    private Purse purse = new Purse();
 
-    public void setPurse(Purse.purse purse) {
+    public void setPurse(Purse purse) {
         this.purse = purse;
     }
 
@@ -21,7 +21,7 @@ public class PursePanel extends JPanel {
         int lineHeight = 0; // Track the height of the current images
 
         // Loop through each denomination
-        for (Map.Entry<Denomination, Integer> entry : purse.cash.entrySet()) {
+        for (Map.Entry<Denomination, Integer> entry : purse.getCash().entrySet()) {
             Denomination denom = entry.getKey();
             int count = entry.getValue();
 
